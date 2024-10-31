@@ -1,3 +1,7 @@
+body {
+    background-color: whitesmoke;
+}
+
 #joke-container {
     display: flex;
     justify-content: center;
@@ -18,6 +22,8 @@
     color: white;
     box-shadow: 0 0.1rem 0.4rem 0.2rem rgba(0, 0, 0, 0.3);
     transition: all 0.2s;
+    user-select: none;
+    outline: none;
 }  
 #joke-button:hover{
     color: #f43f5e;
