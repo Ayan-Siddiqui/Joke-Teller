@@ -1,5 +1,4 @@
 const api_url = `https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw`
-const API_KEY = `anEOksmiWIM1hHAb8gblbA==DNaZGpTxPQ1jA2Ck`
 
 const jokeButton = document.getElementById("joke-button")
 const audio = document.getElementById("audio")
