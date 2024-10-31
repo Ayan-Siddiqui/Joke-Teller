@@ -1,4 +1,4 @@
-const api_url = `https://api.api-ninjas.com/v1/jokes`
+const api_url = `https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw`
 const API_KEY = `anEOksmiWIM1hHAb8gblbA==DNaZGpTxPQ1jA2Ck`
 
 const jokeButton = document.getElementById("joke-button")
@@ -10,6 +10,10 @@ let VoiceRSS={speech:function(e){this._validate(e),this._request(e)},_validate:f
     audio.play()
 
 }},t.open("POST","https://api.voicerss.org/",!0),t.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"),t.send(a)},_buildRequest:function(e){var a=e.c&&"auto"!=e.c.toLowerCase()?e.c:this._detectCodec();return"key="+(e.key||"")+"&src="+(e.src||"")+"&hl="+(e.hl||"")+"&v="+(e.v||"")+"&r="+(e.r||"")+"&c="+(a||"")+"&f="+(e.f||"")+"&ssml="+(e.ssml||"")+"&b64=true"},_detectCodec:function(){var e=new Audio;return e.canPlayType("audio/mpeg").replace("no","")?"mp3":e.canPlayType("audio/wav").replace("no","")?"wav":e.canPlayType("audio/aac").replace("no","")?"aac":e.canPlayType("audio/ogg").replace("no","")?"ogg":e.canPlayType("audio/x-caf").replace("no","")?"caf":""},_getXHR:function(){try{return new XMLHttpRequest}catch(e){}try{return new ActiveXObject("Msxml3.XMLHTTP")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP.6.0")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP.3.0")}catch(e){}try{return new ActiveXObject("Msxml2.XMLHTTP")}catch(e){}try{return new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}throw"The browser does not support HTTP request"}};
+
+const toggleButton = () => {
+    jokeButton.disabled = !jokeButton.disabled
+}
 
 const tellMe = (joke) => {
     VoiceRSS.speech({
@@ -24,19 +28,23 @@ const tellMe = (joke) => {
     });
 }
 
-// test()
-
 const getJokes = () => {
-    
-    fetch(api_url, {
-        method: 'GET',
-        headers: {'X-Api-Key': API_KEY},
-        contentType: 'application/json'
-    })
+    let joke = ""
+    toggleButton()
+    fetch(api_url)
     .then(response => response.json())
     .then(data => {
-        tellMe(data[0].joke)
+        if(data.setup){
+            joke = `${data.setup} ${data.delivery}`
+        }
+        else{
+            joke = data.joke
+        }
+        tellMe(joke)
     })
 }
 
-getJokes()
+// getJokes()
+
+jokeButton.addEventListener("click", getJokes)
+audio.addEventListener("ended", toggleButton)
